@@ -1,125 +1,157 @@
-# 🔬 Open Deep Research — SKILL for OpenClaw
-
-> 一个给 AI Agent 用的深度研究工作流。不依赖额外 API，放进去就能用。
+# 🔬 Open Deep Research — AI Skill for OpenClaw
 
 [![OpenClaw Skill](https://img.shields.io/badge/OpenClaw-Skill-5B45E9)](https://openclaw.ai)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/midboss1028-beep/open-deep-research?style=social)](https://github.com/midboss1028-beep/open-deep-research)
 
-## 这是什么
+**Turn your AI agent into a real research assistant.** Not the "search-and-summarize" kind — the kind that goes layer by layer, finds contradictions, cross-checks sources, and delivers a structured report.
 
-把"研究"这件事从"搜一下然后总结"升级为真正的研究流程：
+Inspired by [dzhng/deep-research](https://github.com/dzhng/deep-research) (17.8k ⭐) and the architecture of [MiroMind/MiroThinker](https://dr.miromind.ai) (SOTA on GAIA/BrowseComp), but built entirely on OpenClaw's native capabilities.
 
-**一层搜索 → 提炼认知 → 发现盲区 → 继续深挖 → 合并输出**
+Zero extra API keys. One folder drop-in. Any LLM, any search provider.
 
-灵感源自 [dzhng/deep-research](https://github.com/dzhng/deep-research)（17.8k ⭐）的核心算法——广度搜索 × 深度递归——但完全基于 OpenClaw 原生能力实现。
+---
 
-## 核心优势
+## Why This Exists
 
-| 特性 | 说明 |
-|------|------|
-| 🚫 **零额外成本** | 不需要 Firecrawl、OpenAI、Fireworks 等额外 API Key |
-| 🎯 **模型无关** | 你用 DeepSeek、MiniMax、Claude 还是 GPT——不挑 |
-| 🔌 **搜索不限** | MiniMax / Tavily / Brave / Google / Perplexity——能用就行 |
-| 📦 **即装即用** | 一个文件夹，放到 skills 目录，重启即生效 |
-| 🌏 **中英双语** | 输入中文出中文报告，输入英文出英文报告 |
-| 💻 **跨平台** | macOS / Linux / Windows 通吃 |
+Most AI "research" tools just do one round: search → summarize → done. That's not research — that's a quick Google.
 
-## 安装
+Real research means:
+1. **Scan broadly** — cover all dimensions of a topic
+2. **Find the cracks** — contradictions, gaps, single-source claims
+3. **Dig deep** — targeted searches on what actually matters
+4. **Verify** — cross-check key data points across multiple sources
+5. **Synthesize** — a structured report with confidence levels, not just bullet points
 
-### 方式一：ClawHub（推荐）
+This skill does all five, automatically.
+
+---
+
+## Quick Start
+
+### Install
 
 ```bash
+# Via ClawHub (recommended)
 clawhub install open-deep-research
-```
 
-### 方式二：手动
-
-```bash
+# Or manual
 cd ~/.openclaw/workspace/skills
 git clone https://github.com/midboss1028-beep/open-deep-research.git
-```
 
-然后重启 OpenClaw 网关：
-
-```bash
+# Restart gateway
 openclaw gateway restart
 ```
 
-### 方式三：项目级使用
+### Trigger
 
-```
-your-project/
-  └── .agent/
-      └── skills/
-          └── open-deep-research/
-              └── SKILL.md
+```bash
+/deep EV battery supply chain 2026
+/deep research open source LLM monetization strategies
 ```
 
-## 使用
+Or just say it naturally — the agent picks up on phrases like:
+- "Do a deep dive on..."
+- "Research the competitive landscape of..."
+- "I need a comprehensive analysis of..."
 
-### 显式触发
+---
 
-```
-/deep 新能源汽车2026年竞争格局
-/deep research AI Agent 市场分析
-```
+## How It Works
 
-### 隐式触发
-
-Agent 会自动识别你下面这类需求：
-
-- "帮我深度研究一下 XXX"
-- "深挖一下 XXX 领域"
-- "出一份关于 XXX 的研究报告"
-- "做个 XXX 的深度分析"
-
-### 默认参数
-
-| 参数 | 默认值 | 说明 |
-|------|--------|------|
-| breadth | 4 | 每层搜索方向数 |
-| depth | 2 | 递归层级数 |
-| 预估搜索量 | ~12次 | breadth × (1 + breadth/2) |
-
-### 输出示例
-
-完成研究后你会收到类似这样的东西：
+### The Pipeline
 
 ```
-🔬 开始深度研究：新能源汽车2026竞争格局，广度=4，深度=2
-🔬 [深度 2/2] 本轮搜索完成，累计获取 18 条认知
-🔬 报告生成中...
-
-# 新能源汽车产业2026竞争格局 — 深度研究报告
-
-## 摘要
-...
-
-## 核心发现
-### 中国市场
-...
-### 全球格局
-...
-### 技术路线
-...
-
-## 来源
-- https://...
+Phase 1: Panoramic Scan  ──→  Phase 2: Gap Analysis  ──→  Phase 3: Targeted Deep Dive  ──→  Phase 4: Cross-Verification  ──→  Phase 5: Report
+  (3-5 broad queries)       (find contradictions)       (6-10 precision queries)         (validate key data)           (structured output)
 ```
 
-## 工作原理
+Not a rigid tree — a **reflective pipeline**. At each phase, the agent pauses to think before deciding where to search next.
+
+### Two Execution Modes
+
+| Mode | How it works | Best for |
+|------|-------------|----------|
+| **Inline** | Runs step-by-step in your current conversation | First-time use, narrow topics |
+| **Sub-agent** | Spawns a dedicated research agent in the background | Deep dives, IM channels, don't-wait scenarios |
+
+The sub-agent mode is particularly useful for chat apps (Telegram, Discord, WeChat) — you get a brief summary in chat and the full report saved to your Desktop.
+
+---
+
+## Output
+
+You get a **brief summary** in chat (mobile-friendly, 15 lines max), and the **full report** saved as a Markdown file:
 
 ```
-                           ┌─ 搜索1 → 提炼认知 → 递归(广度2,深度1)
-        用户问题 ─→ 生成4路搜索 ── 搜索2 → 提炼认知 → 递归(广度2,深度1)
-                           ├─ 搜索3 → 提炼认知 → 递归(广度2,深度1)
-                           └─ 搜索4 → 提炼认知 → 递归(广度2,深度1)
-                                            │
-                                            ↓
-                                   合并所有认知 → 最终报告
+🔬 EV Battery Supply Chain 2026 — Deep Research Report
+
+📊 Covered 6 dimensions, 18 searches, 24 research cards
+
+Key Findings:
+• China controls 75% of global battery cell production
+• LFP chemistry now dominates at 55% market share, up from 30% in 2023
+• Sodium-ion batteries entering commercial production at $45/kWh
+
+Bottom Line: Market consolidation accelerating, vertical integration is the winning strategy for 2026
+
+📁 Full report saved to: ~/Desktop/EV-Battery-Supply-Chain-2026-深度研究报告.md
 ```
 
-## 许可证
+### Report Structure
 
-MIT — 随便用、随便改、随便分享。
+Every report includes:
+- **Scope & Methodology** — what was searched, confidence notes
+- **Core Findings** — by subtopic, each with confidence level (High/Medium/Low)
+- **Contradictions & Controversies** — data points that don't agree
+- **Synthesis** — cross-dimensional analysis and trends
+- **Limitations** — what wasn't covered, where data is thin
+- **Sources** — all referenced URLs
+
+---
+
+## What Makes This Different
+
+| vs. | Single search | Typical AI deep research | This skill |
+|-----|:------------:|:------------------------:|:----------:|
+| Search rounds | 1 | fixed breadth×depth tree | **adaptive, contradiction-driven** |
+| Data verification | none | none | **multi-source cross-check** |
+| Confidence scoring | none | none | **High/Medium/Low on every claim** |
+| Contradictions | ignored | ignored | **explicitly mined and reported** |
+| Execution | inline | inline only | **inline + background sub-agent** |
+| Chat delivery | full text | full text | **summary only, file for details** |
+| Cross-platform | - | - | **macOS / Linux / Windows** |
+| Cost | any | extra API keys needed | **zero additional cost** |
+
+---
+
+## Requirements
+
+Zero. Just a running OpenClaw instance with a `web_search` provider configured.
+
+- **Search:** MiniMax / Tavily / Brave / Google / Perplexity / DuckDuckGo — doesn't matter
+- **LLM:** DeepSeek, MiniMax, Claude, GPT — doesn't matter
+- **OS:** macOS, Linux, Windows — doesn't matter
+- **Extra API keys:** **none needed** — reuses what you already have
+
+---
+
+## File Save Fallback
+
+The agent tries to save the full report to your Desktop, but gracefully degrades:
+
+```
+Desktop writable?      → ~/Desktop/report.md ✓
+   ↓ (no)
+Workspace writable?    → .openclaw/workspace/report.md ✓
+   ↓ (no)
+Temp dir writable?     → /tmp/report.md ✓
+   ↓ (no)
+Nothing works?         → full report in chat (last resort)
+```
+
+---
+
+## License
+
+MIT — use it, share it, fork it, ship it.
